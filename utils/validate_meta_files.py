@@ -17,7 +17,8 @@ def main():
             "./.pre-commit-search-and-replace.yaml",
             "./CODEOWNERS",
             "./README.md",
-            "./catalog-info.yaml"
+            "./catalog-info.yaml",
+            "./release.txt"
         ]
     )
     ignored_dirs = {"Documentation~", ".git", ".yamato", ".github", "utils"}
