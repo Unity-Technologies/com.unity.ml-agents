@@ -1,3 +1,5 @@
+using System;
+
 namespace Unity.MLAgents
 {
     /// <summary>
@@ -8,6 +10,7 @@ namespace Unity.MLAgents
     /// </summary>
     public static class CommunicatorFactory
     {
+        static Func<ICommunicator> m_Creator;
         static bool s_Enabled = true;
 
         /// <summary>
@@ -20,16 +23,16 @@ namespace Unity.MLAgents
             set => s_Enabled = value;
         }
 
+        public static bool CommunicatorRegistered => m_Creator != null;
+
         internal static ICommunicator Create()
         {
-#if UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX || UNITY_STANDALONE_LINUX
-            if (s_Enabled)
-            {
-                return new RpcCommunicator();
-            }
-#endif
-            // Non-desktop or disabled
-            return null;
+            return s_Enabled ? m_Creator() : null;
+        }
+
+        public static void Register<T>(Func<T> creator) where T : ICommunicator
+        {
+            m_Creator = () => creator();
         }
     }
 }

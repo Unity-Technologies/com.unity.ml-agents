@@ -16,7 +16,7 @@ namespace Unity.MLAgents
     /// Struct that contains all the information for an Agent, including its
     /// observations, actions and current status.
     /// </summary>
-    internal struct AgentInfo
+    public struct AgentInfo
     {
         /// <summary>
         /// Keeps track of the last actions taken by the Brain.
@@ -346,6 +346,15 @@ namespace Unity.MLAgents
         /// Delegate for the agent to unregister itself from the MultiAgentGroup without cyclic reference
         /// between agent and the group
         internal event Action<Agent> OnAgentDisabled;
+
+        internal void Awake()
+        {
+            if (!CommunicatorFactory.CommunicatorRegistered)
+            {
+                Debug.Log("Registered Communicator.");
+                CommunicatorFactory.Register<ICommunicator>(RpcCommunicator.Create);
+            }
+        }
 
         /// <summary>
         /// Called when the attached [GameObject] becomes enabled and active.

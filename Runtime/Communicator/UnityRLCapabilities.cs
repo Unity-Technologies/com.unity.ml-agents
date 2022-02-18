@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Unity.MLAgents
 {
-    internal class UnityRLCapabilities
+    public class UnityRLCapabilities
     {
         public bool BaseRLCapabilities;
         public bool ConcatenatedPngObservations;

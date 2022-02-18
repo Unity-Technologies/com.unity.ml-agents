@@ -10,6 +10,7 @@ and this project adheres to
 ### Major Changes
 #### com.unity.ml-agents / com.unity.ml-agents.extensions (C#)
 #### ml-agents / ml-agents-envs
+- Refactored to support the new ML-Agents Pro package.
 - The minimum supported Python version for ml-agents-envs was changed to 3.7.2 (#5)
 - Added support for the PettingZoo multi-agent API (#6)
 - Refactored `gym-unity` into the `ml-agents-envs` package (#6)

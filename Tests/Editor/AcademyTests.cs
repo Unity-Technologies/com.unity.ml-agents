@@ -34,6 +34,7 @@ namespace Unity.MLAgents.Tests
         {
             var gameObj = new GameObject();
             var agent = gameObj.AddComponent<RecursiveAgent>();
+            agent.Awake();
             agent.LazyInitialize();
             agent.RequestDecision();
 

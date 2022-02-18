@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Unity.MLAgents.Sensors
 {
-    internal class SensorShapeValidator
+    public class SensorShapeValidator
     {
         List<ObservationSpec> m_SensorShapes;
 

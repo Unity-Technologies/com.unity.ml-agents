@@ -24,7 +24,9 @@ namespace Unity.MLAgents.Tests
 
             bufferSensor.AppendObservation(new float[] { 1, 2, 3, 4 });
             bufferSensor.AppendObservation(new float[] { 5, 6, 7, 8 });
-
+            // We need register the communicator first before accessing the Academy,
+            // which the ObservationWriter does.
+            CommunicatorFactory.Register<ICommunicator>(RpcCommunicator.Create);
             var obsWriter = new ObservationWriter();
             var obs = bufferSensor.GetObservationProto(obsWriter);
 

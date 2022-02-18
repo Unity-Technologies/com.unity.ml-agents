@@ -1,4 +1,7 @@
 // Compile with: csc CRefTest.cs -doc:Results.xml
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX || UNITY_STANDALONE_LINUX
+#define MLA_SUPPORTED_TRAINING_PLATFORM
+#endif
 using System;
 using UnityEngine;
 using System.Collections.Generic;
@@ -461,7 +464,7 @@ namespace Unity.MLAgents
         /// <param name="filename"></param>
         public void SaveJsonTimers(string filename = null)
         {
-#if UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX || UNITY_STANDALONE_LINUX
+#if MLA_SUPPORTED_TRAINING_PLATFORM
             try
             {
                 if (filename == null)
