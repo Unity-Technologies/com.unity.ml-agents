@@ -10,7 +10,7 @@ namespace Unity.MLAgents
     /// </summary>
     public static class CommunicatorFactory
     {
-        static Func<ICommunicator> m_Creator;
+        static Func<ICommunicator> s_Creator;
         static bool s_Enabled = true;
 
         /// <summary>
@@ -23,16 +23,21 @@ namespace Unity.MLAgents
             set => s_Enabled = value;
         }
 
-        public static bool CommunicatorRegistered => m_Creator != null;
+        public static bool CommunicatorRegistered => s_Creator != null;
 
         internal static ICommunicator Create()
         {
-            return s_Enabled ? m_Creator() : null;
+            return s_Enabled ? s_Creator() : null;
         }
 
         public static void Register<T>(Func<T> creator) where T : ICommunicator
         {
-            m_Creator = () => creator();
+            s_Creator = () => creator();
+        }
+
+        public static void ClearCreator()
+        {
+            s_Creator = null;
         }
     }
 }

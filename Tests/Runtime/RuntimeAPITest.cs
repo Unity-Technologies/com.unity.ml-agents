@@ -49,6 +49,8 @@ namespace Tests
         [SetUp]
         public static void Setup()
         {
+            // We need register the communicator first before accessing the Academy.
+            CommunicatorFactory.Register<ICommunicator>(RpcCommunicator.Create);
             if (Academy.IsInitialized)
             {
                 Academy.Instance.Dispose();

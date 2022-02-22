@@ -15,13 +15,10 @@ def main():
             "./Tests/.tests.json",
             "./.pre-commit-config.yaml",
             "./.pre-commit-search-and-replace.yaml",
-            "./CODEOWNERS",
-            "./README.md",
-            "./catalog-info.yaml",
-            "./release.txt"
+            "./.git"
         ]
     )
-    ignored_dirs = {"Documentation~", ".git", ".yamato", ".github", "utils"}
+    ignored_dirs = {"Documentation~", ".git", ".yamato", ".github"}
 
     num_matched = 0
 
