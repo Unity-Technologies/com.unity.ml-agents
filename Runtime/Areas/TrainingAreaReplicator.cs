@@ -7,6 +7,7 @@ namespace Unity.MLAgents.Areas
     /// <summary>
     /// The Training Ares Replicator allows for a training area object group to be replicated dynamically during runtime.
     /// </summary>
+    [DefaultExecutionOrder(8)]
     public class TrainingAreaReplicator : MonoBehaviour
     {
         /// <summary>

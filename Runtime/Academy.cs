@@ -300,7 +300,6 @@ namespace Unity.MLAgents
             }
 
             m_StepperObject = new GameObject("AcademyFixedUpdateStepper");
-
             // Don't show this object in the hierarchy
             m_StepperObject.hideFlags = HideFlags.HideInHierarchy;
             m_FixedUpdateStepper = m_StepperObject.AddComponent<AcademyFixedUpdateStepper>();
@@ -377,7 +376,6 @@ namespace Unity.MLAgents
             {
                 // No arg passed, or malformed port number.
 #if UNITY_EDITOR
-
                 // Try connecting on the default editor port
                 return MLAgentsSettingsManager.Settings.ConnectTrainer ? MLAgentsSettingsManager.Settings.EditorPort : -1;
 #else
@@ -463,7 +461,6 @@ namespace Unity.MLAgents
                     if (initSuccessful)
                     {
                         UnityEngine.Random.InitState(unityRlInitParameters.seed);
-
                         // We might have inference-only Agents, so set the seed for them too.
                         m_InferenceSeed = unityRlInitParameters.seed;
                         m_NumAreas = unityRlInitParameters.numAreas;
@@ -657,7 +654,7 @@ namespace Unity.MLAgents
 
             m_EnvironmentParameters.Dispose();
             m_StatsRecorder.Dispose();
-            SideChannelManager.UnregisterAllSideChannels(); // unregister custom side channels
+            SideChannelManager.UnregisterAllSideChannels();  // unregister custom side channels
 
             if (m_ModelRunners != null)
             {

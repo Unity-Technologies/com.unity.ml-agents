@@ -1,4 +1,4 @@
-#if UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX || UNITY_STANDALONE_LINUX
+#if UNITY_EDITOR || UNITY_STANDALONE
 #define MLA_SUPPORTED_TRAINING_PLATFORM
 #endif
 
@@ -55,7 +55,7 @@ namespace Unity.MLAgents
         /// <summary>
         /// Initializes a new instance of the RPCCommunicator class.
         /// </summary>
-        public RpcCommunicator()
+        protected RpcCommunicator()
         {
         }
 
@@ -605,4 +605,4 @@ namespace Unity.MLAgents
 #endif
     }
 }
-#endif // UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX || UNITY_STANDALONE_LINUX
+#endif // UNITY_EDITOR || UNITY_STANDALONE

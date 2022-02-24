@@ -195,6 +195,7 @@ namespace Unity.MLAgents
         "docs/Learning-Environment-Design-Agents.md")]
     [Serializable]
     [RequireComponent(typeof(BehaviorParameters))]
+    [DefaultExecutionOrder(3)]
     public partial class Agent : MonoBehaviour, ISerializationCallbackReceiver, IActionReceiver, IHeuristicProvider
     {
         IPolicy m_Brain;
@@ -347,7 +348,24 @@ namespace Unity.MLAgents
         /// between agent and the group
         internal event Action<Agent> OnAgentDisabled;
 
-        internal void Awake()
+        /// <summary>
+        /// Called when the Agent is being loaded (before OnEnable()).
+        /// </summary>
+        ///<remarks>
+        /// This function registers the RpcCommunicator delegate if no delegate has been registered with CommunicatorFactory.
+        /// Always call the base Agent class version of this function if you implement `Awake()` in your
+        /// own Agent subclasses.
+        /// </remarks>
+        /// <example>
+        /// <code>
+        /// protected override void Awake()
+        /// {
+        ///     base.Awake();
+        ///     // additional Awake logic...
+        /// }
+        /// </code>
+        /// </example>
+        protected internal virtual void Awake()
         {
             if (!CommunicatorFactory.CommunicatorRegistered)
             {
