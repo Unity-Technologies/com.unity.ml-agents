@@ -367,11 +367,13 @@ namespace Unity.MLAgents
         /// </example>
         protected internal virtual void Awake()
         {
+#if UNITY_EDITOR || UNITY_STANDALONE
             if (!CommunicatorFactory.CommunicatorRegistered)
             {
                 Debug.Log("Registered Communicator.");
                 CommunicatorFactory.Register<ICommunicator>(RpcCommunicator.Create);
             }
+#endif
         }
 
         /// <summary>
