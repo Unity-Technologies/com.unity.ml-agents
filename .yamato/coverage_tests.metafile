@@ -1,0 +1,11 @@
+coverage_test_editors:
+    - version: 2020.3
+      testProject: DevProject
+
+coverage_test_platforms:
+    - name: linux
+      type: Unity::VM
+      image: package-ci/ubuntu:stable
+      flavor: b1.medium
+
+minCoveragePct: 72

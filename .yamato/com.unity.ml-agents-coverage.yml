@@ -1,0 +1,34 @@
+{% metadata_file .yamato/coverage_tests.metafile %}
+---
+{% for editor in coverage_test_editors %}
+{% for platform in coverage_test_platforms %}
+{% capture coverageOptions %} --enable-code-coverage --code-coverage-options 'generateHtmlReport;assemblyFilters:+Unity.ML-Agents'{% endcapture %}
+
+test_coverage_com.unity.ml-agents_{{ platform.name }}_{{ editor.version }}:
+    name : Coverage com.unity.ml-agents test {{ editor.version }} on {{ platform.name }}
+    agent:
+        type: {{ platform.type }}
+        image: {{ platform.image }}
+        flavor: {{ platform.flavor}}
+    commands:
+        - npm install upm-ci-utils@stable -g --registry https://artifactory.prd.cds.internal.unity3d.com/artifactory/api/npm/upm-npm
+        - upm-ci package test -u {{ editor.version }} --type package-tests {{ coverageOptions }} --extra-utr-arg "reruncount=2"
+        - python3 .yamato/check_coverage_percent.py upm-ci~/test-results/ {{ minCoveragePct }}
+    artifacts:
+        logs:
+            paths:
+                - "upm-ci~/test-results/**/*"
+    dependencies:
+        - .yamato/com.unity.ml-agents-pack.yml#pack
+    triggers:
+        cancel_old_ci: true
+      {% if platform.name == "linux" %}
+        expression: |
+            (pull_request.target eq "main" OR
+            pull_request.target match "release.+") AND
+            NOT pull_request.draft AND
+            (NOT pull_request.changes.any match ".yamato/**" OR
+            pull_request.changes.any match ".yamato/com.unity.ml-agents-coverage.yml")
+      {% endif %}
+{% endfor %}
+{% endfor %}
