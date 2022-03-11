@@ -17,6 +17,7 @@ and this project adheres to
 
 ### Minor Changes
 #### com.unity.ml-agents / com.unity.ml-agents.extensions (C#)
+- Upgrade barracuda dependency to 3.0.0 (#9)
 #### ml-agents / ml-agents-envs
 - Added the new unity_vec_env file to the ml-agents-envs module
 - Extended support to python 3.9.10
