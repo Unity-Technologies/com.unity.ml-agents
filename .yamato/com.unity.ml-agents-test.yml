@@ -47,32 +47,32 @@ test_{{ platform.name }}_{{ editor.version }}:
 # TODO - make sure this runs only nightly or as a dependency when publishing the package.
 # Validate the package on each editor version and each platform
 # Validation only occurs in editmode.
-#{% for editor in test_editors -%}
-#{% for platform in test_platforms -%}
-#validate_{{ platform.name }}_{{ editor.version }}:
-#  name : Validate {{ editor.version }} on {{ platform.name }}
-#  agent:
-#    type: {{ platform.type }}
-#    image: {{ platform.image }}
-#    flavor: {{ platform.flavor}}
-#  commands:
-#    - npm install upm-ci-utils@stable -g --registry https://artifactory.prd.cds.internal.unity3d.com/artifactory/api/npm/upm-npm
-#    - {% if platform.name == "linux_gpu" %}DISPLAY=:0 {% endif %}upm-ci package test -u {{ editor.version }} --type vetting-tests --platform editmode --extra-create-project-arg=-upmNoDefaultPackages
-#  artifacts:
-#    logs:
-#      paths:
-#        - "upm-ci~/test-results/**/*"
-#  dependencies:
-#    - .yamato/com.unity.ml-agents-pack.yml#pack
-#{% endfor -%}
-#{% endfor -%}
+{% for editor in test_editors -%}
+{% for platform in test_platforms -%}
+validate_{{ platform.name }}_{{ editor.version }}:
+ name : Validate {{ editor.version }} on {{ platform.name }}
+ agent:
+   type: {{ platform.type }}
+   image: {{ platform.image }}
+   flavor: {{ platform.flavor}}
+ commands:
+   - npm install upm-ci-utils@stable -g --registry https://artifactory.prd.cds.internal.unity3d.com/artifactory/api/npm/upm-npm
+   - {% if platform.name == "linux_gpu" %}DISPLAY=:0 {% endif %}upm-ci package test -u {{ editor.version }} --type vetting-tests --platform editmode --extra-create-project-arg=-upmNoDefaultPackages
+ artifacts:
+   logs:
+     paths:
+       - "upm-ci~/test-results/**/*"
+ dependencies:
+   - .yamato/com.unity.ml-agents-pack.yml#pack
+{% endfor -%}
+{% endfor -%}
 
 all_package_tests:
   name: Run All Combinations of Editors/Platforms Tests
   triggers:
-    cancel_ld_ci: true
+    cancel_old_ci: true
     expression: |
-      (pull_request.target eq "main" OR
+      (pull_request.target eq "develop" OR
       pull_request.target match "release.+") AND
       NOT pull_request.draft OR
       pull_request.changes.any match ".yamato/com.unity.ml-agents-test.yml"
@@ -83,5 +83,23 @@ all_package_tests:
 {% for platform in test_platforms -%}
     - .yamato/com.unity.ml-agents-test.yml#test_{{platform.name}}_{{editor.version}}
 #    - .yamato/com.unity.ml-agents-test.yml#validate_{{platform.name}}_{{editor.version}}
+{% endfor -%}
+{% endfor -%}
+
+all_validation_tests:
+  name: Run All Combinations of Editors/Platforms for validation Tests
+  triggers:
+    cancel_old_ci: true
+    expression: |
+      (pull_request.target eq "main" OR
+      pull_request.target match "release.+") AND
+      NOT pull_request.draft OR
+      pull_request.changes.any match ".yamato/com.unity.ml-agents-test.yml"
+
+  dependencies:
+    - .yamato/com.unity.ml-agents-pack.yml#pack
+{% for editor in test_editors -%}
+{% for platform in test_platforms -%}
+    - .yamato/com.unity.ml-agents-test.yml#validate_{{platform.name}}_{{editor.version}}
 {% endfor -%}
 {% endfor -%}

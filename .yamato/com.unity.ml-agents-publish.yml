@@ -8,7 +8,7 @@ publish:
     UPMCI_ENABLE_PACKAGE_SIGNING: 1
   commands:
     - npm install upm-ci-utils@stable -g --registry https://artifactory.prd.cds.internal.unity3d.com/artifactory/api/npm/upm-npm
-    - upm-ci package publish --package-path com.unity.ml-agents
+    - upm-ci package publish 
   triggers:
     cancel_old_ci: true
 #    tags:
@@ -21,3 +21,4 @@ publish:
   dependencies:
     - .yamato/com.unity.ml-agents-pack.yml#pack
     - .yamato/com.unity.ml-agents-test.yml#all_package_tests
+    - .yamato/com.unity.ml-agents-test.yml#all_validation_tests
