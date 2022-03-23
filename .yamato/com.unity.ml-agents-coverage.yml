@@ -25,6 +25,7 @@ test_coverage_com.unity.ml-agents_{{ platform.name }}_{{ editor.version }}:
       {% if platform.name == "linux" %}
         expression: |
             (pull_request.target eq "main" OR
+            pull_request.target eq "develop" OR
             pull_request.target match "release.+") AND
             NOT pull_request.draft AND
             (NOT pull_request.changes.any match ".yamato/**" OR
